@@ -902,20 +902,30 @@ int main (int argc, char** argv)
       if (nb < 0)    nb = 0;
       if (nb > 4)    nb = 4;
 
-      float ht = theBigTree.lheHt;
-      int nht = 0;
-      if      (ht  < 0                ) nht = 0;
-      else if (ht >= 0    && ht < 70  ) nht = 0;
-      else if (ht >= 70   && ht < 100 ) nht = 1;
-      else if (ht >= 100  && ht < 200 ) nht = 2;
-      else if (ht >= 200  && ht < 400 ) nht = 3;
-      else if (ht >= 400  && ht < 600 ) nht = 4;
-      else if (ht >= 600  && ht < 800 ) nht = 5;
-      else if (ht >= 800  && ht < 1200) nht = 6;
-      else if (ht >= 1200 && ht < 2500) nht = 7;
-      else  /* ht >= 2500 */            nht = 8;
+//      float ht = theBigTree.lheHt;
+//      int nht = 0;
+//      if      (ht  < 0                ) nht = 0;
+//      else if (ht >= 0    && ht < 70  ) nht = 0;
+//      else if (ht >= 70   && ht < 100 ) nht = 1;
+//      else if (ht >= 100  && ht < 200 ) nht = 2;
+//      else if (ht >= 200  && ht < 400 ) nht = 3;
+//      else if (ht >= 400  && ht < 600 ) nht = 4;
+//      else if (ht >= 600  && ht < 800 ) nht = 5;
+//      else if (ht >= 800  && ht < 1200) nht = 6;
+//      else if (ht >= 1200 && ht < 2500) nht = 7;
+//      else  /* ht >= 2500 */            nht = 8;
 
-      stitchWeight = stitchWeights[njets][nb][nht];
+      float Zpt = theBigTree.lheVPt;
+      int npt = 0;
+
+      if (Zpt <  50                ) npt = 0; // TODO: probably additional bin needed for Zpt=0 for which the inclusive sample needs to be used due to a bug in the lheVPt binned samples
+      if (Zpt >= 50   && Zpt < 100 ) npt = 1;
+      if (Zpt >= 100  && Zpt < 250 ) npt = 2;
+      if (Zpt >= 250  && Zpt < 400 ) npt = 3;
+      if (Zpt >= 400  && Zpt < 650 ) npt = 4;
+      if (Zpt >= 650               ) npt = 5;
+
+      stitchWeight = stitchWeights[njets][nb][npt];
     }
 
     // Should never enter here (DY_tostitch should be always true)
@@ -2236,6 +2246,7 @@ int main (int argc, char** argv)
     theSmallTree.m_isOS = theBigTree.isOSCand->at (chosenTauPair) ;
     theSmallTree.m_lheNOutPartons = theBigTree.lheNOutPartons ;
     theSmallTree.m_lheNOutB = theBigTree.lheNOutB ;
+    theSmallTree.m_lheVPt = theBigTree.lheVPt;
     theSmallTree.m_met_phi   = vMET.Phi();
     theSmallTree.m_met_et    = vMET.Mod();
     theSmallTree.m_METx      = vMET.X();

@@ -104,6 +104,7 @@ int main(int argc, char** argv)
   theBigTree.fChain->SetBranchStatus("*", 0);
   theBigTree.fChain->SetBranchStatus("lheNOutPartons", 1);
   theBigTree.fChain->SetBranchStatus("lheNOutB", 1);
+  theBigTree.fChain->SetBranchStatus("lheVpt", 1);
   //theBigTree.fChain->SetBranchStatus("lheHt", 1);
   theBigTree.fChain->SetBranchStatus("genpart_px",1);
   theBigTree.fChain->SetBranchStatus("genpart_py",1);
@@ -152,31 +153,12 @@ int main(int argc, char** argv)
     //  ht = 9999.;
     //}
     
-    // loop through gen parts to identify Z boson
-    int idx = -1;
-    for (unsigned int igen = 0; igen < theBigTree.genpart_px->size(); igen++)
-    {
-      bool isLast   = CheckBit(theBigTree.genpart_flags->at(igen), 13) ; // 13 = isLastCopy
-      bool isPrompt = CheckBit(theBigTree.genpart_flags->at(igen),  0) ; //  0 = isPrompt
-      if (theBigTree.genpart_pdg->at(igen) == 23 && isLast && isPrompt) // Z0 + isLast + isPrompt
-      {
-	idx = igen;
-      }
-    }
-    // if found, Build the genZ TLorentzVector
-    float pt = -999.;
-    if (idx >= 0)
-    {         
-	// build the genZ TLorentzVector
-	TLorentzVector genZ;
-	genZ.SetPxPyPzE(theBigTree.genpart_px->at(idx), theBigTree.genpart_py->at(idx), theBigTree.genpart_pz->at(idx), theBigTree.genpart_e->at(idx));
-	pt = genZ.Pt();
-    }
+    float pt = theBigTree.lheVPt;
 
     h_nJets_nBs_pt   ->Fill (npartons, nbs, pt);
     hINT_nJets_nBs_pt->Fill (npartons, nbs, pt);
 
-    if (pt >= 0    && pt < 50  ) allEvts[npartons][nbs][0] += 1;
+    if (pt >= 0    && pt < 50  ) allEvts[npartons][nbs][0] += 1; // TODO: probably additional bin needed for Zpt=0 for which the inclusive sample needs to be used due to a bug in the lheVPt binned samples
     if (pt >= 50   && pt < 100 ) allEvts[npartons][nbs][1] += 1;
     if (pt >= 100  && pt < 250 ) allEvts[npartons][nbs][2] += 1;
     if (pt >= 250  && pt < 400 ) allEvts[npartons][nbs][3] += 1;

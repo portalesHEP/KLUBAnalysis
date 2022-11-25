@@ -167,6 +167,7 @@ struct smallTree
       m_nBhadrons = -1;
       m_lheNOutPartons = -1;
       m_lheNOutB = -1;
+      m_lheVPt = -1;
       m_RunNumber = -1. ;
       m_isBoosted = -1 ;
       m_isVBF = 0 ;
@@ -1243,6 +1244,7 @@ struct smallTree
       m_smallT->Branch ("nBhadrons", &m_nBhadrons, "nBhadrons/I") ;
       m_smallT->Branch ("lheNOutPartons", &m_lheNOutPartons, "lheNOutPartons/I");
       m_smallT->Branch ("lheNOutB", &m_lheNOutB, "lheNOutB/I");
+      m_smallT->Branch ("lheVPt", &m_lheVPt, "lheVPt/F");
       m_smallT->Branch ("EventNumber", &m_EventNumber, "EventNumber/l") ;
       m_smallT->Branch ("RunNumber", &m_RunNumber, "RunNumber/I") ;
       m_smallT->Branch ("isBoosted", &m_isBoosted, "isBoosted/I") ;
@@ -2322,6 +2324,7 @@ struct smallTree
   Int_t m_nBhadrons ;
   Int_t m_lheNOutPartons ;
   Int_t m_lheNOutB ;
+  Float_t m_lheVPt;
   ULong64_t m_EventNumber ;
   Int_t m_RunNumber ;
   Int_t m_isBoosted ;

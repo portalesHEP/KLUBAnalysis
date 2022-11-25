@@ -991,28 +991,10 @@ int main (int argc, char** argv)
       //else if (ht >= 800  && ht <1200) nht = 6;
       //else if (ht >= 1200 && ht <2500) nht = 7;
       //else /* ht >= 2500*/             nht = 8;
-      float Zpt = -999;
+      float Zpt = theBigTree.lheVPt;
       int npt = 0;    
-      // loop through gen parts to identify Z boson
-      int Zidx = -1;
-      for (unsigned int igen = 0; igen < theBigTree.genpart_px->size(); igen++)
-      {
-	bool isZLast   = CheckBit(theBigTree.genpart_flags->at(igen), 13) ; // 13 = isLastCopy
-	bool isZPrompt = CheckBit(theBigTree.genpart_flags->at(igen),  0) ; //  0 = isPrompt
-	if (theBigTree.genpart_pdg->at(igen) == 23 && isZLast && isZPrompt) // Z0 + isLast + isPrompt
-	{
-	  Zidx = igen;
-	}
-      }
-      // if found, Build the genZ TLorentzVector
-      if (Zidx >= 0)
-      {         
-	// build the genZ TLorentzVector
-	TLorentzVector tlvgenZ;
-	tlvgenZ.SetPxPyPzE(theBigTree.genpart_px->at(Zidx), theBigTree.genpart_py->at(Zidx), theBigTree.genpart_pz->at(Zidx), theBigTree.genpart_e->at(Zidx));
-	Zpt = tlvgenZ.Pt();
 
-	if (Zpt <  50                ) npt = 0;
+	if (Zpt <  50                ) npt = 0; // TODO: probably additional bin needed for Zpt=0 for which the inclusive sample needs to be used due to a bug in the lheVPt binned samples
 	if (Zpt >= 50   && Zpt < 100 ) npt = 1;
 	if (Zpt >= 100  && Zpt < 250 ) npt = 2;
 	if (Zpt >= 250  && Zpt < 400 ) npt = 3;
@@ -1020,9 +1002,6 @@ int main (int argc, char** argv)
 	if (Zpt >= 650               ) npt = 5;
       
 	stitchWeight = stitchWeights[njets][nb][npt];
-      } else {
-	stitchWeight = 0; // no gen Z found
-      }
     }
 
     // Should never enter here (DY_tostitch should be always true)
@@ -2497,6 +2476,7 @@ int main (int argc, char** argv)
     theSmallTree.m_isOS = theBigTree.isOSCand->at (chosenTauPair) ;
     theSmallTree.m_lheNOutPartons = theBigTree.lheNOutPartons ;
     theSmallTree.m_lheNOutB = theBigTree.lheNOutB ;
+    theSmallTree.m_lheVPt = theBigTree.lheVPt;
     theSmallTree.m_met_phi   = vMET.Phi();
     theSmallTree.m_met_et    = vMET.Mod();
     theSmallTree.m_METx      = vMET.X();

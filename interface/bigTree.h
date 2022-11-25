@@ -92,6 +92,7 @@ public :
   Float_t         lheHt;
   Int_t           lheNOutPartons;
   Int_t           lheNOutB;
+  Float_t         lheVPt;
   Float_t         aMCatNLOweight;
   //TString         susyModel;
 
@@ -351,6 +352,7 @@ public :
   TBranch        *b_lheHt;   //!
   TBranch        *b_lheNOutPartons; //!
   TBranch        *b_lheNOutB; //!
+  TBranch        *b_lheVPt;
   TBranch        *b_aMCatNLOweight;   //!
   //TBranch        *b_susyModel;   //!
   TBranch        *b_genpart_px;   //!
@@ -1014,6 +1016,7 @@ public :
       fChain->SetBranchAddress("lheHt", &lheHt, &b_lheHt);
       fChain->SetBranchAddress("lheNOutPartons", &lheNOutPartons, &b_lheNOutPartons);
       fChain->SetBranchAddress("lheNOutB", &lheNOutB, &b_lheNOutB);
+      fChain->SetBranchAddress("lheVPt", &lheVPt, &b_lheVPt);
       fChain->SetBranchAddress("daughters_hasTES", &daughters_hasTES, &b_daughters_hasTES);
       fChain->SetBranchAddress("daughters_TESshiftDM0", &daughters_TESshiftDM0, &b_daughters_TESshiftDM0);
       fChain->SetBranchAddress("daughters_TESshiftDM1", &daughters_TESshiftDM1, &b_daughters_TESshiftDM1);
